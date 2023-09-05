@@ -2,12 +2,23 @@ version: "3"
 
 services:
   web:
-    build: .
+    image: veramo-agent-local:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: base
+      platforms:
+        - linux/amd64
+    expose: 
+      - "3332"
     ports:
       - "3332:3332"
     environment:
-      DEBUG: veramo*
-      PORT: 3332
-    command: ["yarn", "veramo", "server", "--config=/config/agent-local.yml"]
+      API_KEY: ${API_KEY}
+      BASE_URL: ${BASE_URL}
+      RPC_URL: ${RPC_URL}
+      KMS_SECRET_KEY: ${KMS_SECRET_KEY}
+      DATABASE_URL: postgres://postgres:tomoima525TEST@host.docker.internal:5432/veramo?sslmode=disable
+    command: ["node", "build/app.js"]
     volumes:
-      - ./config:/config
+      - ./src:/usr/src/app/src

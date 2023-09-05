@@ -1,6 +1,8 @@
 build
-node_modules
+node_modules/
 database.sqlite
 db
 .DS_Store
 .idea/
+ca/
+*.tsbuildinfo
